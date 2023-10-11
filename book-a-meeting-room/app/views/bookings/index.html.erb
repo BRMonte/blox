@@ -1,0 +1,15 @@
+<h1>TESTING</h1>
+
+<%= month_calendar events: @bookings do |date, bookings| %>
+  <%= date.to_formatted_s(:short) %>
+
+  <% bookings.each do |bookings| %>
+    <div>
+      <%= bookings.name %>
+      <%= bookings.in_charge %>
+      <%= MeetingRoom.find(bookings.meeting_room_id).name %>
+      <%= bookings.start_time %>
+      <%= bookings.end_time %>
+    </div>
+  <% end %>
+<% end %>
