@@ -1,7 +1,7 @@
 class Booking < ApplicationRecord
   belongs_to :meeting_room
 
-  validates :in_charge, presence: true
+  validates :in_charge, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only allows letters" }
   validate :within_business_hours, :no_overlap
 
   private
