@@ -8,9 +8,10 @@ class Booking < ApplicationRecord
   private
 
   def within_business_hours
-    if start_time.nil? || end_time.nil? || start_time.hour < 8 || start_time.hour >= 18 || end_time.hour < 8 || end_time.hour >= 18
-      errors.add(:base, "Booking must be within 8:00 and 18:00")
-    end
+    times = [start_time, end_time]
+    return unless times.any?(&:nil?) || times.any? { |t| t.hour < 8 } || start_time.hour >= 18 || end_time.hour > 18
+
+    errors.add(:base, 'Booking must be within 8:00 and 18:00')
   end
 
   def no_overlap
@@ -19,8 +20,8 @@ class Booking < ApplicationRecord
                                   .where("(start_time, end_time) OVERLAPS (?, ?)", start_time, end_time)
                                   .exists?
 
-    if overlapping_booking
-      errors.add(:base, "Booking overlaps with an existing booking for this room")
-    end
+    return unless overlapping_booking
+
+    errors.add(:base, 'Booking overlaps with an existing booking for this room')
   end
 end
