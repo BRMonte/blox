@@ -1,13 +1,14 @@
 class Booking < ApplicationRecord
   belongs_to :meeting_room
+  belongs_to :user
 
-  validates :in_charge, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "Only allows letters" }
+  validates :in_charge, presence: true, format: { with: /\A[a-zA-Z .,'"]+\z/, message: "Only allows letters, spaces, and punctuation" }
   validate :within_business_hours, :no_overlap
 
   private
 
   def within_business_hours
-    if start_time.hour < 8 || start_time.hour >= 18 || end_time.hour < 8 || end_time.hour >= 18
+    if start_time.nil? || end_time.nil? || start_time.hour < 8 || start_time.hour >= 18 || end_time.hour < 8 || end_time.hour >= 18
       errors.add(:base, "Booking must be within 8:00 and 18:00")
     end
   end

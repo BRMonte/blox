@@ -10,6 +10,8 @@
   </head>
 
   <body>
+    <%= render "layouts/navbar"%>
+    <%= render "layouts/sidebar"%>
     <%= yield %>
     <%= yield :page_title %>
     <% if user_signed_in? %>

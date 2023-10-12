@@ -17,10 +17,7 @@ class BookingsController < ApplicationController
 
   def create
     @booking = Booking.new(booking_params)
-    if booking_overlap?
-      flash[:alert] = 'Booking overlap is not allowed.'
-      render :new
-    elsif @booking.save
+    if @booking.save
       redirect_to @booking, notice: 'Booking was successfully created.'
     else
       render :new
