@@ -3,34 +3,34 @@ class BookingsController < ApplicationController
 
   def index
     bookings = current_user.bookings
-    render json: bookings, status: 200
+    render json: bookings, status: :ok
   end
 
   def show
-    render json: @booking, status: 200
+    render json: @booking, status: :ok
   end
 
   def create
     @booking = current_user.bookings.build(booking_params)
 
     if @booking.save
-      render json: @booking, status: 201
+      render json: @booking, status: :created
     else
-      render json: @booking.errors, status: 422
+      render json: @booking.errors, status: :unprocessable_entity
     end
   end
 
   def update
     if @booking.update(booking_params)
-      render json: @booking, status: 200
+      render json: @booking, status: :created
     else
-      render json: @booking.errors, status: 422
+      render json: @booking.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
     @booking.destroy
-    head 204
+    head :no_content
   end
 
   private

@@ -2,9 +2,8 @@ class Booking < ApplicationRecord
   belongs_to :meeting_room
   belongs_to :user
 
-  # validates :in_charge, presence: true, format: { with: /\A[a-zA-Z .,'"]+\z/, message: "Only allows letters, spaces, and punctuation" }
-  # validate :within_business_hours, :no_overlap
-  validate :no_overlap
+  validates :in_charge, presence: true, format: { with: /\A[a-zA-Z .,'"]+\z/, message: "Only allows letters, spaces, and punctuation" }
+  validate :within_business_hours, :no_overlap
 
   private
 
