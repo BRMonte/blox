@@ -2,39 +2,35 @@ class BookingsController < ApplicationController
   before_action :set_booking, only: [:show, :edit, :update, :destroy]
 
   def index
-    @bookings = Booking.all
+    bookings = current_user.bookings
+    render json: bookings, status: 200
   end
 
   def show
-  end
-
-  def new
-    @booking = Booking.new
-  end
-
-  def edit
+    render json: @booking, status: 200
   end
 
   def create
-    @booking = Booking.new(booking_params)
+    @booking = current_user.bookings.build(booking_params)
+
     if @booking.save
-      redirect_to @booking, notice: 'Booking was successfully created.'
+      render json: @booking, status: 201
     else
-      render :new
+      render json: @booking.errors, status: 422
     end
   end
 
   def update
     if @booking.update(booking_params)
-      redirect_to @booking, notice: 'Booking was successfully updated.'
+      render json: @booking, status: 200
     else
-      render :edit
+      render json: @booking.errors, status: 422
     end
   end
 
   def destroy
     @booking.destroy
-    redirect_to bookings_url, notice: 'Booking was successfully destroyed.'
+    head 204
   end
 
   private
@@ -44,12 +40,6 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(:meeting_room_id, :start_time, :end_time, :in_charge)
-  end
-
-  def booking_overlap?
-    Booking.exists?(meeting_room_id: @booking.meeting_room_id,
-                    start_time: (@booking.start_time..@booking.end_time))
+    params.require(:booking).permit(:meeting_room_id, :start_time, :end_time, :name, :in_charge)
   end
 end
-

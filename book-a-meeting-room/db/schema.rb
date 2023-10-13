@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_12_094535) do
+ActiveRecord::Schema.define(version: 2023_10_12_162113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2023_10_12_094535) do
     t.string "in_charge"
     t.string "name"
     t.bigint "user_id"
+    t.boolean "completed", default: false
     t.index ["meeting_room_id"], name: "index_bookings_on_meeting_room_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end

@@ -13,4 +13,11 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
+//= require jquery3
 //= require_tree .
+
+
+$(document).on('turbolinks:load', function() {
+  $('#datepicker').datepicker();
+  $('#datepicker2').datepicker();
+});

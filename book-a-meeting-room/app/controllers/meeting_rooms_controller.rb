@@ -4,35 +4,29 @@
 
      def index
        @meeting_rooms = current_user.meeting_rooms
-     end
-
-     def new
-       @meeting_room = current_user.meeting_rooms.build
+       render json: @meeting_rooms
      end
 
      def create
        @meeting_room = current_user.meeting_rooms.build(meeting_room_params)
        if @meeting_room.save
-         redirect_to @meeting_room, notice: 'Meeting room was successfully created.'
+         render json: @meeting_room, status: :created
        else
-         render :new
+         render json: @meeting_room.errors, status: :unprocessable_entity
        end
-     end
-
-     def edit
      end
 
      def update
        if @meeting_room.update(meeting_room_params)
-         redirect_to @meeting_room, notice: 'Meeting room was successfully updated.'
+         render json: @meeting_room
        else
-         render :edit
+         render json: @meeting_room.errors, status: :unprocessable_entity
        end
      end
 
      def destroy
        @meeting_room.destroy
-       redirect_to meeting_rooms_url, notice: 'Meeting room was successfully destroyed.'
+       head :no_content
      end
 
      private
@@ -42,6 +36,6 @@
      end
 
      def meeting_room_params
-       params.require(:meeting_room).permit(:name, :location)
+       params.require(:meeting_room).permit(:name)
      end
    end
